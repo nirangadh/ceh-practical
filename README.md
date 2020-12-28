@@ -1,2 +1,2 @@
 # ceh-practical
-CEH Practical Exam
+Lab Notes for CEH Practical Exam
