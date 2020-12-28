@@ -1,0 +1,10 @@
+Module 11: Session Hijacking
+
+Session Hijacking Using the Zed Attack Proxy (ZAP)
+	Windows 10, Chrome > Settings > Advanced > System > Open proxy settings
+	Configure Proxy (Windows 2016 VM - 10.10.10.16:8080)
+	Windows 2016, run ZAP (no persistence)
+	Break tab allows you to modify a response or request when it has been caught by ZAP.
+	Tools > Options > Local Proxies (Windows 2016 VM - 10.10.10.16:8080)
+	Set break on all requests and responses from the tool bar of ZAP.
+	Click "Submit and step to next request or response" to manipulate.

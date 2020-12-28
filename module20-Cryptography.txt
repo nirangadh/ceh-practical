@@ -1,0 +1,21 @@
+Module 20: Cryptography
+
+Calculating One-Way Hashes Using HashCalc
+
+Calculating MD5 Hashes Using MD5 Calculator
+	MD5 is not collision resistant; therefore, it is better to use the latest algorithms, such as SHA-2 and SHA-3.
+
+Understanding File and Text Encryption Using CryptoForge
+
+Encrypting and Decrypting the Data Using BCTextEncoder
+
+Creating and Using Self-Signed Certificate
+	Using IIS Manager
+
+Basic Disk Encryption Using VeraCrypt
+	Create Volume
+	Create an encrypted file container
+	Standard VeraCrypt volume
+	AES/SHA-512
+
+Basic Data Encryption Using CrypTool

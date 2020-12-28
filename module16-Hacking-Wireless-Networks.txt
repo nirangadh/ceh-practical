@@ -1,0 +1,13 @@
+Module 16: Hacking Wireless Networks
+
+WiFi Packet Analysis using Wireshark
+	802.11 protocol indicates wireless packets
+
+Cracking a WEP with Aircrack-ng
+	aircrack-ng WEPcrack01.cap
+
+Cracking a WPA (Wi-Fi Protected Access) with Aircrack-ng
+	aircrack-ng -a2 -b 20:E5:2A:E4:38:00 -w /root/Desktop/Wordlists/Passwords.txt '/root/Desktop/Sample Captures/WPA2crack-01.cap'
+	-a is the technique used to crack the handshake, 2=WPA technique.
+	-b refers to bssid; replace with the BSSID of the target router.
+	-w stands for wordlist; provide the path to a wordlist.

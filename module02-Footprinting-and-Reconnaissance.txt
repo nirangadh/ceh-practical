@@ -1,0 +1,33 @@
+Module 02: Footprinting and Reconnaissance
+
+Open Source Information Gathering Using Windows Command Line Utilities
+	ping -c 3 10.10.10.10
+	ping www.moviescope.com –f –l 1500 (Packet needs to be fragmented but DF set)
+	ping www.moviescope.com –f –l 1472
+	tracert www.moviescope.com
+	
+Collecting Information About a Target Website Using Firebug
+	Firebug / developer tools
+
+Mirroring Website Using HTTrack Web Site Copier
+
+Advanced Network Route Tracing Using Path Analyzer Pro
+	Timed trace
+
+Information Gathering Using Metasploit
+	service postgresql start
+	msfdb init
+	service postgresql restart
+	msfconsole
+	db_status
+	nmap -Pn -sS -A -oX Test 10.10.10.0/24
+	db_import Test
+	hosts
+	db_nmap -sS -A 10.10.10.16
+	services
+	use scanner/smb/smb_version
+	show options
+	set RHOSTS 10.10.10.8-16
+	set THREADS 100
+	run
+	hosts

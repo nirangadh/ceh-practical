@@ -1,0 +1,20 @@
+Module 13: Hacking Web Servers
+
+Performing Web Server Reconnaissance using Skipfish
+	skipfish -o /root/test -S /usr/share/skipfish/dictionaries/complete.wl http://[IP Address of Windows Server 2012]:8080
+	
+Footprinting a Web Server Using the httprecon Tool
+	Windows tool
+	
+Footprinting a Web Server Using ID Serve
+
+Cracking FTP Credentials Using Dictionary Attack
+	nmap -p 21 10.10.10.10
+	hydra -L /root/Desktop/Wordlists/Usernames.txt -P /root/Desktop/Wordlists/Passwords.txt ftp://[IP Address of Windows 10]
+
+Uniscan Web Server Fingerprinting in Kali Linux
+	uniscan -h
+	uniscan -u http://10.10.10.12:8080/CEH -q
+	uniscan -u http://10.10.10.12:8080/CEH -we
+	uniscan -u http://10.10.10.12:8080/CEH -d
+	/usr/share/uniscan/report

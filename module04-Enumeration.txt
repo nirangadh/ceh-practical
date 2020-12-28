@@ -1,0 +1,48 @@
+Module 04: Enumeration
+
+NetBIOS Enumeration Using Global Network Inventory (Hosts, Ports, Services)
+
+Enumerating Network Resources Using Advanced IP Scanner (shutdown, radmin)
+
+Performing Network Enumeration Using SuperScan
+
+Enumerating Resources in a Local Machine Using Hyena
+
+Performing Network Enumeration Using NetBIOS Enumerator
+
+Enumerating a Network Using SoftPerfect Network Scanner
+
+Enumerating a Target Network using Nmap and Net Use
+	nmap -O 10.10.10.12
+	You see that ports 135, 139, 445, etc. are open, and port 139 is using NetBIOS.
+	Windows 2012, nbtstat –A 10.10.10.16
+	net use (to view the created null sessions/shared folders from your host)
+	net use \\10.10.10.16\e ““\user:”” (create a null session)
+	net use \\10.10.10.16\e ““/user:””
+
+Enumerating Services on a Target Machine with Nmap
+	nmap -sP 10.10.10.0/24 (ping sweep scan)
+	nmap -sS 10.10.10.12 (stealthy SYN scan)
+	nmap -sSV -O 10.10.10.12 (stealthy SYN scan with version detection along with OS detection)
+	nmap -sSV -O 10.10.10.12 -oN Enumeration.txt
+	
+SNMP Enumeration Using snmp_enum with Nmap & Metasploit
+	nmap –sU –p 161 10.10.10.12
+	nmap -sU -p 161 --script=snmp-brute 10.10.10.12 (snmp-brute script will extract the SNMP community string from the target machine)
+	msfconsole
+	use auxiliary/scanner/snmp/snmp_login
+	show options
+	set RHOSTS 10.10.10.12
+	exploit
+	use auxiliary/scanner/snmp/snmp_enum
+	set RHOSTS 10.10.10.12
+	exploit
+	
+LDAP Enumeration Using Active Directory Explorer (ADExplorer)
+
+Enumerating information from Windows and Samba host using Enum4linux
+	enum4linux -u martin -p apple -U 10.10.10.12 (user list)
+	enum4linux -u martin -p apple -o 10.10.10.12 (Operating System details)
+	enum4linux -u martin -p apple -P 10.10.10.12 (Password Policy Information)
+	enum4linux -u martin -p apple -G 10.10.10.12 (Groups details)
+	enum4linux -u martin -p apple -S 10.10.10.12 (Share Policy Information)

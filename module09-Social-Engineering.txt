@@ -1,0 +1,8 @@
+Module 09: Social Engineering
+
+Sniffing Website Credentials Using Social Engineering Toolkit (SET)
+	Social-Engineering Attacks
+	Website Attack Vectors
+	Credential Harvester Attack Method
+	Site Cloner
+	POST back in Harvester/Tabnabbing
